@@ -13,7 +13,7 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String removeString(String base, String remove) {
-        return null; //TODO
+        return base.replace(remove, "");
     }
 
     /**
@@ -24,7 +24,8 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isQuestionString(String text) {
-        return false; //TODO
+        int qIndex = text.indexOf("?");
+        return qIndex > 0 && qIndex == text.length() - 1;
     }
 
     /**
@@ -35,7 +36,11 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String concatenate(String... elements) {
-        return null; //TODO
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s : elements) {
+            stringBuilder.append(s);
+        }
+        return stringBuilder.toString();
     }
 
     /**
@@ -47,7 +52,18 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public String toJumpCase(String text) {
-        return null; //TODO
+        boolean toUpper = false;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < text.length(); i++) {
+            if (toUpper) {
+                stringBuilder.append(String.valueOf(text.charAt(i)).toUpperCase());
+                toUpper = false;
+            } else {
+                stringBuilder.append(String.valueOf(text.charAt(i)).toLowerCase());
+                toUpper = true;
+            }
+        }
+        return stringBuilder.toString(); //TODO
     }
 
     /**
@@ -59,6 +75,10 @@ public class SimpleTextService implements TextService {
      */
     @Override
     public boolean isPalindrome(String string) {
-       return false; //TODO
+        if (string.isEmpty()) {
+            return false;
+        }
+        String reversedString = new StringBuilder(string).reverse().toString().replace(" ", "").toLowerCase();
+        return string.replace(" ", "").toLowerCase().equals(reversedString);
     }
 }
