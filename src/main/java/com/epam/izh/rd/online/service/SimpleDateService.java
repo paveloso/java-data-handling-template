@@ -1,8 +1,13 @@
 package com.epam.izh.rd.online.service;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class SimpleDateService implements DateService {
 
@@ -14,7 +19,8 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String parseDate(LocalDate localDate) {
-        return null;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        return dateFormat.format(localDate);
     }
 
     /**
@@ -25,7 +31,8 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public LocalDateTime parseString(String string) {
-        return null;
+        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        return LocalDateTime.parse(string, dateFormat);
     }
 
     /**
@@ -37,7 +44,7 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public String convertToCustomFormat(LocalDate localDate, DateTimeFormatter formatter) {
-        return null;
+        return formatter.toFormat().format(localDate);
     }
 
     /**
@@ -47,7 +54,12 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getNextLeapYear() {
-        return 0;
+        GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        while (!calendar.isLeapYear(year)) {
+            year++;
+        }
+        return year;
     }
 
     /**
@@ -57,7 +69,12 @@ public class SimpleDateService implements DateService {
      */
     @Override
     public long getSecondsInYear(int year) {
-        return 0;
+        GregorianCalendar calendar = (GregorianCalendar) GregorianCalendar.getInstance();
+        if (calendar.isLeapYear(year)) {
+            return 60 * 60 * 24 * 366;
+        } else {
+            return 60 * 60 * 24 * 365;
+        }
     }
 
 
